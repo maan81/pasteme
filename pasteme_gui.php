@@ -77,9 +77,22 @@
 
 		$.post('pasteme_server.php',params,function(data){
 				//$(document).append(data);
+				//$('#spinner').hide();
+				//$('#result').show();
+				//$('#result').text('data stored');
+				if(data=='true'){
+					$('#result').text('data stored');
+				
+				}else{
+					$('#result').text('unable to store data');
+				}
 			})
 			.done(function(){
-				$('#result').text('data stored');
+				if(	$('#result').text()=='data stored'){
+					$('#result').text('data stored');
+				}else{
+					$('#result').text('unable to store data');
+				}
 
 			})
 			.fail(function(){
