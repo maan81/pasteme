@@ -117,7 +117,7 @@ if(isset($stored_data)){
 		</fieldset>
 	</form>
 
-	<script type="text/javascript" src='<?= ((isset($stored_data))?'../':'')?>jquery.js'></script>
+	<script type="text/javascript" src='http://code.jquery.com/jquery-latest.min.js'></script>
 
 	<script type="text/javascript">
 	$('form').submit(function(e){
