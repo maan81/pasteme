@@ -13,6 +13,25 @@
 // Needs to be a ajax interface to prevent page refreshes. 
 
 
+
+
+
+
+
+
+$get_url = parse_url($_SERVER['REQUEST_URI']);
+
+$get_url = explode('/',$get_url['path']);
+
+$get_url = $get_url[count($get_url)-1];
+
+//get the db & display it.
+if($get_url!='pasteme_gui.php'){
+	include('pasteme_server.php');
+}
+
+
+
 if(isset($stored_data)){
 	$d=$stored_data['d'];
 	$text = $stored_data['text'];

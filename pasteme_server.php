@@ -40,9 +40,11 @@ if($get_url!='pasteme_server.php'){
 				'd'  => $row['d'],
 			];
 
-	include('pasteme_gui.php');
+	return;
 
-	die;
+	// include('pasteme_gui.php');
+
+	// die;
 }
 
 
