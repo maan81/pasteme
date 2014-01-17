@@ -37,6 +37,35 @@
 			width: 200px;
 			border: 1px solid black;
 		}
+
+
+		td:first-child {
+		    width: 25%;
+		    vertical-align: top;
+		}
+		textarea {
+		    height: 150px;
+		    width: 100%;
+		}
+		select {
+		    height: 30px;
+		    padding: 3px;
+		    width: 100px;		}
+		input {
+		    height: 30px;
+		    width: 100px;
+		}
+		form {
+		    width: 400px;
+		}
+		table {
+		    width: 100%;
+		}
+		tr {
+		}
+		td {
+		    padding: 10px 0;
+		}
 	</style>
 </head>
 <body>
@@ -44,21 +73,42 @@
 	<div id='spinner'>loading ...</div>
 	<div id='result'></div>
 
-	<form method='post' action='pasteme_server.php'>
-		<label for='limit'></label>
-		<select id='limit' name='limit'>
-			<option value='0'>Forever</option>
-			<option value='365'>1 Year</option>
-			<option value='180'>6 Months</option>
-			<option value='30' selected='selected'>1 Month</option>
-			<option value='7'>1 Weeks</option>
-			<option value='1'>1 Day</option>
-		</select>
-
-		<label for='textarea'>Text</label>
-		<textarea id='textarea' name='textarea'></textarea>
-
-		<input type='submit' name='submit' value='Post'/>
+	<form action="pasteme_server.php" method="post">
+		<fieldset>
+			<table style="">
+				<tbody>
+					<tr>
+						<td>
+							<label for="limit">Time to keep</label>
+						</td>
+						<td>
+							<select name="limit" id="limit">
+								<option value="0">Forever</option>
+								<option value="365">1 Year</option>
+								<option value="180">6 Months</option>
+								<option selected="selected" value="30">1 Month</option>
+								<option value="7">1 Weeks</option>
+								<option value="1">1 Day</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td style="">
+							<label for="textarea" style="">Text</label>
+						</td>
+						<td>
+							<textarea name="textarea" id="textarea" style="width: 265px; height: 152px;"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td>
+							<input type="submit" value="Post" name="submit">
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</fieldset>
 	</form>
 
 	<script type="text/javascript" src='jquery.js'></script>
@@ -76,10 +126,6 @@
 		$('#spinner').show();
 
 		$.post('pasteme_server.php',params,function(data){
-				//$(document).append(data);
-				//$('#spinner').hide();
-				//$('#result').show();
-				//$('#result').text('data stored');
 				if(data=='true'){
 					$('#result').text('data stored');
 				

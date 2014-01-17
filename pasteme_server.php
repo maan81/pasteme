@@ -13,6 +13,30 @@ $db = [
 
 
 
+/**
+ * Displays the help
+ *
+ */
+function help(){
+	echo 	'<pre>'.
+			' Usage: pasteme [-d] string'.PHP_EOL.
+			PHP_EOL.
+			'   Options:'.PHP_EOL.
+			'     -d     The number of days to keep in string,'.PHP_EOL. 
+			'            where, d could be : '.PHP_EOL.
+			PHP_EOL.
+			'            365 = 1 Year'.PHP_EOL.
+			'            180 = 6 Months'.PHP_EOL.
+			'            30  = 1 Month'.PHP_EOL.
+			'            7   = 1 Weeks'.PHP_EOL.
+			'            1   = 1 Day'.PHP_EOL.
+			'            0   = Forever'.PHP_EOL.
+			PHP_EOL.'</pre>';
+
+			die;
+
+}
+
 
 /**
  * Validate
@@ -20,11 +44,11 @@ $db = [
  */
 function validate($param,$type){
 	//validate days
-	if($type='days'){
+	if($type=='days'){
 		switch($param){
-			case '360': case '180': case '30':
+			case '365': case '180': case '30':
 			case '7':	case '1': case '0':
-				return ;
+				break;
 
 
 			//invalid number of days
@@ -42,13 +66,9 @@ function validate($param,$type){
 
 
 
-
-
-
 //validation
-validate($_POST['text'],'text');
 validate($_POST['d'],'days');
-
+validate($_POST['text'],'text');
 
 
 //connect to db.
