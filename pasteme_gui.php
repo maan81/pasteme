@@ -13,8 +13,14 @@
 // Needs to be a ajax interface to prevent page refreshes. 
 
 
+if(isset($stored_data)){
+	$d=$stored_data['d'];
+	$text = $stored_data['text'];
+}else{
+	$d='30';
+	$text = '';
+}
 ?>
-
 <!doctype html>
 <html>
 <head>
@@ -32,7 +38,7 @@
 			display: none;
 			position: fixed;
 			top: 200px;
-			background: yellow;
+			background: red;
 			height: 50px;
 			width: 200px;
 			border: 1px solid black;
@@ -83,12 +89,12 @@
 						</td>
 						<td>
 							<select name="limit" id="limit">
-								<option value="0">Forever</option>
-								<option value="365">1 Year</option>
-								<option value="180">6 Months</option>
-								<option selected="selected" value="30">1 Month</option>
-								<option value="7">1 Weeks</option>
-								<option value="1">1 Day</option>
+								<option <?= ($d=='0'? 'selected=selected':'')  ?> value="0">Forever</option>
+								<option <?= ($d=='365'?'selected=selected':'') ?> value="365">1 Year</option>
+								<option <?= ($d=='180'?'selected=selected':'') ?> value="180">6 Months</option>
+								<option <?= ($d=='30'?'selected=selected':'')  ?> value="30">1 Month</option>
+								<option <?= ($d=='7'? 'selected=selected':'')  ?> value="7">1 Weeks</option>
+								<option <?= ($d=='1'? 'selected=selected':'')  ?> value="1">1 Day</option>
 							</select>
 						</td>
 					</tr>
@@ -97,7 +103,7 @@
 							<label for="textarea" style="">Text</label>
 						</td>
 						<td>
-							<textarea name="textarea" id="textarea" style="width: 265px; height: 152px;"></textarea>
+							<textarea name="textarea" id="textarea" style="width: 265px; height: 152px;"><?= $text ?></textarea>
 						</td>
 					</tr>
 					<tr>
@@ -111,7 +117,7 @@
 		</fieldset>
 	</form>
 
-	<script type="text/javascript" src='jquery.js'></script>
+	<script type="text/javascript" src='<?= ((isset($stored_data))?'../':'')?>jquery.js'></script>
 
 	<script type="text/javascript">
 	$('form').submit(function(e){

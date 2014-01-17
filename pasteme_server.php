@@ -1,5 +1,13 @@
 <?php
 
+$get_url = parse_url($_SERVER['REQUEST_URI']);
+
+$get_url = explode('/',$get_url['path']);
+
+$get_url = $get_url[count($get_url)-1];
+
+
+
 
 //db info
 $db = [
@@ -11,25 +19,33 @@ $db = [
 	];
 
 
+//get the db & display it.
+if($get_url!='pasteme_server.php'){
 
-/**
- * Returns a unique id which has not been used in the db
- *
- */
-function generate_uniqueID($tmp_mysqli){
+	$con=mysqli_connect($db['hostname'],$db['username'],$db['password'],$db['database']);
+	// Check connection
+	if (mysqli_connect_errno($con)){
+	  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+	}
 
-	//generate a unique id
-	do{
-		$tmp_uniqueID = uniqid();
+	// Perform queries
+	$res = mysqli_query($con,'SELECT * FROM '.$db['table'].' WHERE url = "'.$get_url.'";');
 
-		$tmp_stmt = $tmp_mysqli->prepare('SELECT id FROM '.$db['table'].' WHERE url = "'.$tmp_uniqueID .'"');
-		$tmp_stmt->execute();
-		$tmp_res = $tmp_stmt->get_result();
-print_r($tmp_res);die;
-	}while(count($tmp_res)!=0);
+	$row = mysqli_fetch_array($res);
 
-	return $tmp_uniqueID;
+	mysqli_close($con);
+
+	$stored_data = [
+				'text'=>$row['text'],
+				'd'  => $row['d'],
+			];
+
+	include('pasteme_gui.php');
+
+	die;
 }
+
+
 
 
 /**
@@ -99,6 +115,12 @@ if ($mysqli->connect_errno) {
 }
 
 
+
+
+
+
+//------------------------------------------------
+
 //get a unique id for the url
 do{
 	$uniqueID = uniqid();
@@ -119,6 +141,8 @@ if (!$stmt->execute()) {
     echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
 }
 echo "true";
+
+//------------------------------------------------
 
 
 /* explicit close recommended */
