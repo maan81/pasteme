@@ -32,7 +32,7 @@
 			display: none;
 			position: fixed;
 			top: 200px;
-			background: red;
+			background: yellow;
 			height: 50px;
 			width: 200px;
 			border: 1px solid black;

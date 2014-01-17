@@ -7,10 +7,29 @@ $db = [
 		'username' => 'root',
 		'password' => 'password',
 		'database' => 'pasteme',
+		'table'    => 'pasteme_table'
 	];
 
 
 
+/**
+ * Returns a unique id which has not been used in the db
+ *
+ */
+function generate_uniqueID($tmp_mysqli){
+
+	//generate a unique id
+	do{
+		$tmp_uniqueID = uniqid();
+
+		$tmp_stmt = $tmp_mysqli->prepare('SELECT id FROM '.$db['table'].' WHERE url = "'.$tmp_uniqueID .'"');
+		$tmp_stmt->execute();
+		$tmp_res = $tmp_stmt->get_result();
+print_r($tmp_res);die;
+	}while(count($tmp_res)!=0);
+
+	return $tmp_uniqueID;
+}
 
 
 /**
@@ -80,8 +99,17 @@ if ($mysqli->connect_errno) {
 }
 
 
+//get a unique id for the url
+do{
+	$uniqueID = uniqid();
+
+	$res = $mysqli->query('SELECT id FROM '.$db['table'].' WHERE url = "'.$uniqueID .'"');
+}while($res->num_rows!=0);
+
+
+
 /* Prepared statement, stage 1: prepare */
-if (!($stmt = $mysqli->prepare('INSERT INTO pasteme_table (text,d) VALUES ("'.$_POST['text'].'",'.$_POST['d'].') ') ) ) {
+if (!($stmt = $mysqli->prepare('INSERT INTO '.$db['table'].' (text,d,url) VALUES ("'.$_POST['text'].'",'.$_POST['d'].',"'.$uniqueID.'") ') ) ) {
     
     echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
 }
@@ -95,4 +123,3 @@ echo "true";
 
 /* explicit close recommended */
 $stmt->close();
-
