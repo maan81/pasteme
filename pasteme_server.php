@@ -1,9 +1,5 @@
 <?php
 
-// print_r($argv);
-
-//print_r($_POST);
-
 
 //db info
 $db = [
@@ -12,6 +8,46 @@ $db = [
 		'password' => 'password',
 		'database' => 'pasteme',
 	];
+
+
+
+
+
+
+/**
+ * Validate
+ *
+ */
+function validate($param,$type){
+	//validate days
+	if($type='days'){
+		switch($param){
+			case '360': case '180': case '30':
+			case '7':	case '1': case '0':
+				return ;
+
+
+			//invalid number of days
+			default:
+				help();
+		}
+	}
+
+
+	//validate string
+	//currenty, not needed .....
+	if($type=='text'){
+	}
+}
+
+
+
+
+
+
+//validation
+validate($_POST['text'],'text');
+validate($_POST['d'],'days');
 
 
 
@@ -30,16 +66,6 @@ if (!($stmt = $mysqli->prepare('INSERT INTO pasteme_table (text,d) VALUES ("'.$_
     echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
 }
 
-// /* Prepared statement, stage 2: bind and execute */
-// if (!$stmt->bind_param("text", $_POST['text'])) {
-//     echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
-// }
-// if (!$stmt->bind_param("d", $_POST['d'])) {
-//     echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
-// }
-
-
-
 
 if (!$stmt->execute()) {
     echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
@@ -49,25 +75,4 @@ echo "true";
 
 /* explicit close recommended */
 $stmt->close();
-
-
-
-
-//====================
-//$mysqli = new mysqli("example.com", "user", "password", "database");
-
-// if ($mysqli->connect_errno) {
-//     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-// }
-
-// /* Non-prepared statement */
-// if (!$mysqli->query("DROP TABLE IF EXISTS test") || !$mysqli->query("CREATE TABLE test(id INT)")) {
-//     echo "Table creation failed: (" . $mysqli->errno . ") " . $mysqli->error;
-// }
-
-// /* Prepared statement, stage 1: prepare */
-// if (!($stmt = $mysqli->prepare("INSERT INTO test(id) VALUES (?)"))) {
-//     echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
-//}
-
 
