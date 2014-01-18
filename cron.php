@@ -14,7 +14,7 @@ $db = [
 
 
 //sql to delete the data which have crossed their days limit
-$sql = 'DELETE FROM '.$db['table'].' WHERE (created_at + INTERVAL d DAY) < NOW()';
+$sql = 'DELETE FROM '.$db['table'].' WHERE (d>0) AND ( (created_at + INTERVAL d DAY) < NOW() AND d>=0 );';
 
 
 $con=mysqli_connect($db['hostname'],$db['username'],$db['password'],$db['database']);
