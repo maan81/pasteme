@@ -17,45 +17,38 @@ $pasteme_gui = 'http://localhost:8080/pasteme_gui.php';
 
 
 
-$get_url = parse_url($_SERVER['REQUEST_URI']);
-
-$get_url = explode('/',$get_url['path']);
-
-$get_url = $get_url[count($get_url)-1];
 
 
+//----------------------------------------
+//displaying the string & not storing the string
+
+	//get the current url
+	$get_url = parse_url($_SERVER['REQUEST_URI']);
+	$get_url = explode('/',$get_url['path']);
+	$get_url = $get_url[count($get_url)-1];
 
 
+	if($get_url!='pasteme_server.php'){
 
+		$con=mysqli_connect($db['hostname'],$db['username'],$db['password'],$db['database']);
+		if (mysqli_connect_errno($con)){
+		  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+		}
 
-//get the db & display it.
-if($get_url!='pasteme_server.php'){
+		$res = mysqli_query($con,'SELECT * FROM '.$db['table'].' WHERE url = "'.$get_url.'";');
 
-	$con=mysqli_connect($db['hostname'],$db['username'],$db['password'],$db['database']);
-	// Check connection
-	if (mysqli_connect_errno($con)){
-	  echo "Failed to connect to MySQL: " . mysqli_connect_error();
-	}
+		$row = mysqli_fetch_array($res);
 
-	// Perform queries
-	$res = mysqli_query($con,'SELECT * FROM '.$db['table'].' WHERE url = "'.$get_url.'";');
+		mysqli_close($con);
 
-	$row = mysqli_fetch_array($res);
+		$stored_data = [
+					'text'=>$row['text'],
+					'd'  => $row['d'],
+				];
 
-	mysqli_close($con);
-
-	$stored_data = [
-				'text'=>$row['text'],
-				'd'  => $row['d'],
-			];
-
-	return;
-
-	// include('pasteme_gui.php');
-
-	// die;
-}
-
+		return;
+	}	
+//----------------------------------------
 
 
 
@@ -132,7 +125,7 @@ if ($mysqli->connect_errno) {
 
 //------------------------------------------------
 
-//get a unique id for the url
+//generate a unique id for the url
 do{
 	$uniqueID = uniqid();
 
@@ -157,5 +150,4 @@ echo '{"result":true,"url":"'.$pasteme_gui.'/'.$uniqueID.'"}';
 //------------------------------------------------
 
 
-/* explicit close recommended */
 $stmt->close();

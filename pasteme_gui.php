@@ -1,28 +1,7 @@
 <?php
 
-// Should be a simple text area with a paste button. Clicking the button needs to generate a href link to the pasted content.
-
-// There also needs to be a drop down for how long the pasted content is retained for.
-// 1 day
-// 7 days
-// 30 days (default)
-// 6 months
-// 1 year
-// Forever
-
-// Needs to be a ajax interface to prevent page refreshes. 
-
-
-
-
-
-
-
-
 $get_url = parse_url($_SERVER['REQUEST_URI']);
-
 $get_url = explode('/',$get_url['path']);
-
 $get_url = $get_url[count($get_url)-1];
 
 //get the db & display it.
@@ -139,68 +118,64 @@ if(isset($stored_data)){
 
 	<script type="text/javascript">
 
-$(function(){
+	$(function(){
+
+		//enable-disable submit button
+		$('#textarea').keyup(function(){
+			if($(this).val().length<1){
+				$('#submit').attr('disabled','disabled');
+			}else{
+				$('#submit').removeAttr('disabled');
+			}
+
+		})
 
 
-
-	//enable-disable submit button
-	$('#textarea').keyup(function(){
-		if($(this).val().length<1){
-			$('#submit').attr('disabled','disabled');
-		}else{
-			$('#submit').removeAttr('disabled');
-		}
-
-	})
+		$('form').submit(function(e){
+			e.preventDefault();
 
 
+			var params = {
+							'd'		: $('#limit').val(),
+							'text' 	: $('#textarea').val()
+						};
 
 
-	$('form').submit(function(e){
-		e.preventDefault();
+			$('#spinner').show();
 
-
-		var params = {
-						'd'		: $('#limit').val(),
-						'text' 	: $('#textarea').val()
-					};
-
-
-		$('#spinner').show();
-
-		$.post('pasteme_server.php',params,function(data){
-			data = JSON.parse(data);
-			//console.log(data)
-				if(typeof data==='object'){
+			$.post('pasteme_server.php',params,function(data){
+				data = JSON.parse(data);
+				//console.log(data)
+					if(typeof data==='object'){
+						
+						//$('<a>').attr({'href':data.url}).append(data.url)
+						var url = $('<a>').attr({'href':data.url}).append(data.url)
+						console.log(url)
+						$('#result').text('Data stored at ').append(url);
 					
-					//$('<a>').attr({'href':data.url}).append(data.url)
-					var url = $('<a>').attr({'href':data.url}).append(data.url)
-					console.log(url)
-					$('#result').text('Data stored at ').append(url);
-				
-				}else{
+					}else{
+						$('#result').text('unable to store data');
+					}
+				})
+				// .done(function(){
+				// 	if(	$('#result').text()=='data stored'){
+				// 		$('#result').text('data stored');
+				// 	}else{
+				// 		$('#result').text('unable to store data');
+				// 	}
+
+				// })
+				.fail(function(){
 					$('#result').text('unable to store data');
-				}
-			})
-			// .done(function(){
-			// 	if(	$('#result').text()=='data stored'){
-			// 		$('#result').text('data stored');
-			// 	}else{
-			// 		$('#result').text('unable to store data');
-			// 	}
+				})
+				.always(function(){
+					$('#spinner').hide();
+					$('#result').show();
+				})
 
-			// })
-			.fail(function(){
-				$('#result').text('unable to store data');
-			})
-			.always(function(){
-				$('#spinner').hide();
-				$('#result').show();
-			})
-
+		})
+		$('#result').text('unable to store data');
 	})
-				$('#result').text('unable to store data');
-})
 	</script>
 
 </body>

@@ -1,22 +1,8 @@
 #!/usr/bin/php
 <?php
 
-//------------------------------------------------------------------------------
 
-// The second part of this needs to be a bash script that allows for pasting of 
-// code directly from the command line from remove machines.
-
-// Examples
-// $ echo hi | pasteme
-// Link: http://linktopaste.com
-
-// The bash script should also allow for an argument to define how long the 
-// paste is stored for. The default without the argument should be 30 days
-
-//------------------------------------------------------------------------------
-
-
-//the reqd. url
+//the reqd. server url
 $url = 'http://localhost:8080/pasteme_server.php';
 
 //the default number of days
@@ -138,9 +124,6 @@ curl_close($ch);
 
 
 //if successful ...
-
-
-
 if( json_decode($result)){
 	$result = json_decode($result);
 	echo 'Sucessfully added at '.$result->url.PHP_EOL;
