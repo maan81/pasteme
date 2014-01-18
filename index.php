@@ -4,8 +4,9 @@ $get_url = parse_url($_SERVER['REQUEST_URI']);
 $get_url = explode('/',$get_url['path']);
 $get_url = $get_url[count($get_url)-1];
 
+
 //get the db & display it.
-if($get_url!='pasteme_gui.php'){
+if(strlen($get_url)>0 &&  ($get_url!='index.php') ){
 	include('pasteme_server.php');
 }
 

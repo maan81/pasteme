@@ -10,7 +10,7 @@ $db = [
 	];
 
 //pasteme_gui's url;
-$pasteme_gui = 'http://localhost:8080/pasteme_gui.php';
+$pasteme_gui = 'http://localhost:8080';
 
 
 
