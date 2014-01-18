@@ -1,5 +1,22 @@
 <?php
 
+//db info
+$db = [
+		'hostname' => 'localhost',
+		'username' => 'root',
+		'password' => 'password',
+		'database' => 'pasteme',
+		'table'    => 'pasteme_table'
+	];
+
+//pasteme_gui's url;
+$pasteme_gui = 'http://localhost:8080/pasteme_gui.php';
+
+
+
+
+
+
 $get_url = parse_url($_SERVER['REQUEST_URI']);
 
 $get_url = explode('/',$get_url['path']);
@@ -9,14 +26,6 @@ $get_url = $get_url[count($get_url)-1];
 
 
 
-//db info
-$db = [
-		'hostname' => 'localhost',
-		'username' => 'root',
-		'password' => 'password',
-		'database' => 'pasteme',
-		'table'    => 'pasteme_table'
-	];
 
 
 //get the db & display it.
@@ -142,7 +151,8 @@ if (!($stmt = $mysqli->prepare('INSERT INTO '.$db['table'].' (text,d,url) VALUES
 if (!$stmt->execute()) {
     echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
 }
-echo "true";
+
+echo '{"result":true,"url":"'.$pasteme_gui.'/'.$uniqueID.'"}';
 
 //------------------------------------------------
 

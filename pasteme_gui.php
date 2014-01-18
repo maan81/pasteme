@@ -59,18 +59,17 @@ if(isset($stored_data)){
 			top: 200px;
 			background: red;
 			height: 50px;
-			width: 200px;
+			width: 330px;
 			border: 1px solid black;
 		}
-
 
 		td:first-child {
 		    width: 25%;
 		    vertical-align: top;
 		}
 		textarea {
-		    height: 150px;
-		    width: 100%;
+		    width: 265px; 
+		    height: 152px;
 		}
 		select {
 		    height: 30px;
@@ -122,13 +121,13 @@ if(isset($stored_data)){
 							<label for="textarea" style="">Text</label>
 						</td>
 						<td>
-							<textarea name="textarea" id="textarea" style="width: 265px; height: 152px;"><?= $text ?></textarea>
+							<textarea name="textarea" id="textarea"><?= $text ?></textarea>
 						</td>
 					</tr>
 					<tr>
 						<td>&nbsp;</td>
 						<td>
-							<input type="submit" value="Post" name="submit">
+							<input type="submit" value="Post" name="submit" id="submit" disabled="disabled">
 						</td>
 					</tr>
 				</tbody>
@@ -139,8 +138,27 @@ if(isset($stored_data)){
 	<script type="text/javascript" src='http://code.jquery.com/jquery-latest.min.js'></script>
 
 	<script type="text/javascript">
+
+$(function(){
+
+
+
+	//enable-disable submit button
+	$('#textarea').keyup(function(){
+		if($(this).val().length<1){
+			$('#submit').attr('disabled','disabled');
+		}else{
+			$('#submit').removeAttr('disabled');
+		}
+
+	})
+
+
+
+
 	$('form').submit(function(e){
 		e.preventDefault();
+
 
 		var params = {
 						'd'		: $('#limit').val(),
@@ -151,21 +169,27 @@ if(isset($stored_data)){
 		$('#spinner').show();
 
 		$.post('pasteme_server.php',params,function(data){
-				if(data=='true'){
-					$('#result').text('data stored');
+			data = JSON.parse(data);
+			//console.log(data)
+				if(typeof data==='object'){
+					
+					//$('<a>').attr({'href':data.url}).append(data.url)
+					var url = $('<a>').attr({'href':data.url}).append(data.url)
+					console.log(url)
+					$('#result').text('Data stored at ').append(url);
 				
 				}else{
 					$('#result').text('unable to store data');
 				}
 			})
-			.done(function(){
-				if(	$('#result').text()=='data stored'){
-					$('#result').text('data stored');
-				}else{
-					$('#result').text('unable to store data');
-				}
+			// .done(function(){
+			// 	if(	$('#result').text()=='data stored'){
+			// 		$('#result').text('data stored');
+			// 	}else{
+			// 		$('#result').text('unable to store data');
+			// 	}
 
-			})
+			// })
 			.fail(function(){
 				$('#result').text('unable to store data');
 			})
@@ -175,6 +199,8 @@ if(isset($stored_data)){
 			})
 
 	})
+				$('#result').text('unable to store data');
+})
 	</script>
 
 </body>

@@ -138,8 +138,12 @@ curl_close($ch);
 
 
 //if successful ...
-if($result == 'true'){
-	echo 'Sucessfully added'.PHP_EOL;
+
+
+
+if( json_decode($result)){
+	$result = json_decode($result);
+	echo 'Sucessfully added at '.$result->url.PHP_EOL;
 
 
 //else display error 

@@ -26,13 +26,17 @@ SET time_zone = "+00:00";
 -- Table structure for table `pasteme_table`
 --
 
+
 CREATE TABLE IF NOT EXISTS `pasteme_table` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Id of the text',
   `text` text NOT NULL COMMENT 'The text to be stored',
   `d` int(3) NOT NULL COMMENT 'The number of days to be stored',
+  `url` varchar(255) NOT NULL COMMENT 'url to access the stored text',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `url` (`url`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=38 ;
+
 
 --
 -- Dumping data for table `pasteme_table`
