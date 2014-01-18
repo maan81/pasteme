@@ -85,14 +85,28 @@ if(isset($stored_data)){
 							<label for="limit">Time to keep</label>
 						</td>
 						<td>
-							<select name="limit" id="limit">
-								<option <?= ($d=='0'? 'selected=selected':'')  ?> value="0">Forever</option>
-								<option <?= ($d=='365'?'selected=selected':'') ?> value="365">1 Year</option>
-								<option <?= ($d=='180'?'selected=selected':'') ?> value="180">6 Months</option>
-								<option <?= ($d=='30'?'selected=selected':'')  ?> value="30">1 Month</option>
-								<option <?= ($d=='7'? 'selected=selected':'')  ?> value="7">1 Weeks</option>
-								<option <?= ($d=='1'? 'selected=selected':'')  ?> value="1">1 Day</option>
-							</select>
+							<?php  
+								if(isset($stored_data)): 
+
+									switch($d){
+										case '0'  : echo 'Forever'; break;
+										case '365': echo '1 Year';  break;
+										case '180': echo '6 Months';break;
+										case '30' : echo '1 Month'; break;
+										case '7'  : echo '1 Weeks'; break;
+										case '1'  : echo '1 Day';   break;
+									}
+
+								else: ?>
+									<select name="limit" id="limit">
+										<option <?= ($d=='0'? 'selected=selected':'')  ?> value="0">Forever</option>
+										<option <?= ($d=='365'?'selected=selected':'') ?> value="365">1 Year</option>
+										<option <?= ($d=='180'?'selected=selected':'') ?> value="180">6 Months</option>
+										<option <?= ($d=='30'?'selected=selected':'')  ?> value="30">1 Month</option>
+										<option <?= ($d=='7'? 'selected=selected':'')  ?> value="7">1 Weeks</option>
+										<option <?= ($d=='1'? 'selected=selected':'')  ?> value="1">1 Day</option>
+									</select>
+							<?php endif ?>
 						</td>
 					</tr>
 					<tr>
@@ -100,7 +114,9 @@ if(isset($stored_data)){
 							<label for="textarea" style="">Text</label>
 						</td>
 						<td>
-							<textarea name="textarea" id="textarea"><?= $text ?></textarea>
+							<textarea name="textarea" id="textarea" <?= 
+																isset($stored_data)?'readonly="true"':'' 
+																	?>><?= $text ?></textarea>
 						</td>
 					</tr>
 					<tr>
