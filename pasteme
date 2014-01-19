@@ -3,7 +3,7 @@
 
 
 //the reqd. server url
-$url = 'http://localhost:8080/pasteme_server.php';
+$url = 'http://paste.theshosting.com/pasteme_server.php';
 
 //the default number of days
 $default_days = 30;

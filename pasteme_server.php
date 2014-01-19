@@ -100,6 +100,8 @@ function validate($param,$type){
 	//validate string
 	//currenty, not needed .....
 	if($type=='text'){
+
+		$_POST['text'] = htmlentities($param);
 	}
 }
 
@@ -116,6 +118,7 @@ $mysqli = new mysqli($db['hostname'],$db['username'],$db['password'],$db['databa
 // Check connection
 if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+    die;
 }
 
 
@@ -138,11 +141,13 @@ do{
 if (!($stmt = $mysqli->prepare('INSERT INTO '.$db['table'].' (text,d,url) VALUES ("'.$_POST['text'].'",'.$_POST['d'].',"'.$uniqueID.'") ') ) ) {
     
     echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+    die;
 }
 
 
 if (!$stmt->execute()) {
     echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+    die;
 }
 
 echo '{"result":true,"url":"'.$pasteme_gui.'/'.$uniqueID.'"}';
