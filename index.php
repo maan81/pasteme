@@ -15,6 +15,7 @@ if(strlen($get_url)>0 &&  ($get_url!='index.php') ){
 if(isset($stored_data)){
 	$d=$stored_data['d'];
 	$text = $stored_data['text'];
+	echo '<pre>'.$text.'</pre>';die;
 }else{
 	$d='30';
 	$text = '';
