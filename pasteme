@@ -3,7 +3,8 @@
 
 
 //the reqd. server url
-$url = 'http://paste.theshosting.com/pasteme_server.php';
+//$url = 'http://paste.theshosting.com/pasteme_server.php';
+$url = 'http://localhost:8080/pasteme_server.php';
 
 //the default number of days
 $default_days = 30;
@@ -85,6 +86,10 @@ for($i=1;$i<count($argv);$i++){
 	$data['text'] = $argv[$i];
 }
 
+//if using pipes, use them
+if(!isset($data['text'])) {
+	$data['text'] = file_get_contents('php://stdin');
+}
 
 //display help if text is not set 
 if(!isset($data['text'])){
@@ -94,6 +99,7 @@ if(!isset($data['text'])){
 
 //set the default number of days if not set
 $data['d'] = (isset($data['d']) ? $data['d'] : $default_days );
+
 
 //convert array to string
 foreach($data as $k=>$v){
