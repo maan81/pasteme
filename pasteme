@@ -3,8 +3,8 @@
 
 
 //the reqd. server url
-//$url = 'http://paste.theshosting.com/pasteme_server.php';
-$url = 'http://localhost:8080/pasteme_server.php';
+$url = 'http://paste.theshosting.com/pasteme_server.php';
+//$url = 'http://localhost:8080/pasteme_server.php';
 
 //the default number of days
 $default_days = 30;
@@ -69,6 +69,11 @@ for($i=1;$i<count($argv);$i++){
 	if($argv[$i]=='-d'){
 		$num_of_days=true;
 		continue;
+
+	//display help parameter
+	}elseif($argv[$i]=='-h'){
+		help();
+
 
 	//get the number of days if set
 	}elseif($num_of_days){
