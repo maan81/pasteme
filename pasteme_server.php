@@ -101,7 +101,7 @@ function validate($param,$type){
 	//currenty, not needed .....
 	if($type=='text'){
 
-		$_POST['text'] = htmlentities($param);
+		$_POST['text'] = addslashes(htmlentities($param));
 	}
 }
 

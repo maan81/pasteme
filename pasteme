@@ -83,24 +83,27 @@ for($i=1;$i<count($argv);$i++){
 	}
 
 	//get the required string
-	$data['text'] = $argv[$i];
+	$data['text'] = urlencode($argv[$i]);
 }
 
-//if using pipes, use them
+//if data is not passed a parameter ...
 if(!isset($data['text'])) {
-	$data['text'] = file_get_contents('php://stdin');
-}
+	
+	//if pipe is also not used, display help & die;
+	if (posix_isatty(STDIN)){
+	    help();
 
-//display help if text is not set 
-if(!isset($data['text'])){
-	help();
+	}
+
+	//set pipe's parameter to the data
+	$data['text'] = urlencode( file_get_contents('php://stdin') );
 }
 
 
 //set the default number of days if not set
 $data['d'] = (isset($data['d']) ? $data['d'] : $default_days );
-
-
+// print_r($data);
+// die;
 //convert array to string
 foreach($data as $k=>$v){
 	$data_str .= ($data_str?'&':'');
